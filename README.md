@@ -11,8 +11,6 @@ barnacles.py contains the image loading and region counting functions I referenc
 Run the code below in terminal to create a virtual environment with the necessary dependencies:
 
 ```zsh
-git clone ...
-cd count-barnacles
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
