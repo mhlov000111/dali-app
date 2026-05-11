@@ -24,9 +24,13 @@ Setting out on this project, I intended to build a tool that could label (or att
 
 ## Early Prototyping
 
-Now, having identified my task at a high-level, I decided to pursue a non-ML approach, given how little data was avaliable. Training an image segmentation model, or even fine-tuning a pre-trained one, would require much more than two labeled images. Instead, my intuition told me to, first, find some kernel to help detect regions or edges and, second, use flood-fill or another region counting algorithm to count the number of barnacles the filter detected.
+Now, having identified my task at a high-level, I decided to pursue a non-ML approach, given how little data was avaliable. Training an image segmentation model, or even fine-tuning a pre-trained one, would require much more than two labeled images. 
 
-### Challenges & Failed Approaches
+I've worked with edge detection kernels previously, so my first thoughts were to use edge detection or some similar image processing technique to 1) eliminate noise and 2) segment the barnacles into a connected components. If I could complete both of these sub tasks, then the remainder of the problem would be easy to solve. Counting the number of connected components in a binary image is trivial, and can quickly be done with DFS.
+
+However, (2) proved much more difficult than I initially thought. Since barnacles tend to share borders or even overlap, image processing methods would cause them to bleed together so that each connected component was composed of multiple barnacles.
+
+### Other Challenges & Failed Approaches
 
 1. **Eliminating Noise via Morphology**
 
@@ -36,7 +40,7 @@ https://docs.opencv.org/4.x/d9/d61/tutorial_py_morphological_ops.html
 
 2. **Distance Transform**
 
-Distance Transform is a region finding algorithm that applies a filter to a binary (BW) image such that, in the returned image, a pixel's intensity corresponds to its distance from white pixels in the original black and white image. I though this technique could help identify the centers of the barnacles. However, it didn't seem to make much of a difference on top of the algorithm I ended up using, so I didn't include it for the sake of simplicity.
+Distance Transform is a region finding algorithm that applies a filter to a binary (BW) image such that, in the returned image, a pixel's intensity corresponds to its distance from white pixels in the original black and white image. I though this technique could help identify the centers of the barnacles, even when they overlapped. However, it didn't seem to make much of a difference on top of the algorithm I ended up using, so I didn't include it for the sake of simplicity.
 
 https://homepages.inf.ed.ac.uk/rbf/HIPR2/distance.htm 
 
